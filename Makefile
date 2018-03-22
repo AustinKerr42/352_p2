@@ -2,7 +2,7 @@ HEADERS = client.h
 
 default: program
 
-shell.o: client.c $(HEADERS)
+client.o: client.c $(HEADERS)
 	gcc -c client.c -o client.o
 
 program: client.o

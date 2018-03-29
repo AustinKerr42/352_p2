@@ -14,9 +14,9 @@
 
 int main(int argc, char *argv[]){
 
-    bool headerOnly = false, validURL = false;
+    bool headerOnly = false, validURL = false, validPort = true;
     char *timeInterval, *url, protocol[10], portString[6];
-    int port, portPlace;
+    int port=80, portPlace=0;
 
     int i, j, k;
     for(i=1; i < argc; i++){
@@ -47,7 +47,6 @@ int main(int argc, char *argv[]){
         for(j=0; j < strlen(url); j++){
           //standard port used
           if(url[j] == '/'){
-            port = 80;
             break;
           }else if(url[j] == ':'){
             //port is specified
@@ -60,17 +59,23 @@ int main(int argc, char *argv[]){
                 if(isdigit(url[k])){
                   portString[portPlace] = url[k];
                   portPlace++;
-                }
+                }else{
+		  validPort = false;
+		}
               }else{
-                printf("Specified port is invalid.\n");
-                return 0;
+                validPort = false;
               }
             }
-            //convert portString to int
-            printf("port: %s", portString);
-            //port = (int) portString;
           }
         }
+
+	if(validPort == false){
+	  printf("Port is invalid\n");
+	  return 0;
+	}else if(portString[0] != '\0'){
+	  port = atoi(portString);
+	}
+
         printf("Port: %d\n", port);
 
         //get the hostname
@@ -80,7 +85,7 @@ int main(int argc, char *argv[]){
         }
 
 
-        printf("protocol: %s\n", protocol);
+        printf("Protocol: %s\n", protocol);
       }
     }
 

@@ -15,8 +15,8 @@
 int main(int argc, char *argv[]){
 
     bool headerOnly = false, validURL = false, validPort = true;
-    char *timeInterval, *url, protocol[10], portString[6];
-    int port=80, portPlace=0;
+    char *timeInterval, *url, protocol[10], portString[5];
+    int port=80, portPlace=0, fileStart=0;
 
     int i, j, k;
     for(i=1; i < argc; i++){
@@ -47,14 +47,16 @@ int main(int argc, char *argv[]){
         for(j=0; j < strlen(url); j++){
           //standard port used
           if(url[j] == '/'){
+	    fileStart = j+1;
             break;
           }else if(url[j] == ':'){
             //port is specified
             for(k=j+1; k < strlen(url); k++){
               if(url[k] == '/'){
                 //end of port number
+                fileStart = k+1;
                 break;
-              }else if(portPlace < 6){
+              }else if(portPlace < 4){
                 //make sure it is a number and add to port
                 if(isdigit(url[k])){
                   portString[portPlace] = url[k];
